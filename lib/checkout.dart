@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test/paymentRequest.dart';
 
 class Checkout extends StatefulWidget {
   const Checkout({Key? key}) : super(key: key);
@@ -141,7 +142,7 @@ class _CheckoutState extends State<Checkout> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
                               '\$',
@@ -153,7 +154,7 @@ class _CheckoutState extends State<Checkout> {
                           ),
                           Text(
                             amount,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 35,
                                 fontWeight: FontWeight.bold),
@@ -211,7 +212,9 @@ class _CheckoutState extends State<Checkout> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentRequest(amount: amount)));
+                        },
                         style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(Colors.white),
