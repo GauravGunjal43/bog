@@ -226,6 +226,13 @@ class _DashboardState extends State<Dashboard> {
                             CircleAvatar(
                               radius: 20,
                               backgroundColor: Color(0xffF2F4F5),
+                              child: Container(
+                                height: 18,
+                                width: 18,
+                                child: Center(
+                                    child: Image.asset(
+                                        'assets/images/Rec_Icon.png')),
+                              ),
                             )
                           ],
                         );
