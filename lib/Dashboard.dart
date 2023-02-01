@@ -10,6 +10,33 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<TileDetails> transactions = [
+    TileDetails(
+        id: "0xEdCc...341E",
+        dateTime: "Mon Aug 16, 1:32 PM",
+        send: true,
+        amount: "++,+++.++"),
+    TileDetails(
+        id: "0xEdCc...341E",
+        dateTime: "Mon Aug 16, 8:01 AM",
+        send: false,
+        amount: "12,345.67"),
+    TileDetails(
+        id: "0xEdCc...341E",
+        dateTime: "Sun Aug 15, 4:43 PM",
+        send: false,
+        amount: "1,234.56"),
+    TileDetails(
+        id: "0xEdCc...341E",
+        dateTime: "Tue Aug 14, 12:08 PM",
+        send: false,
+        amount: "123.45"),
+    TileDetails(
+        id: "0xEdCc...341E",
+        dateTime: "Tue Aug 16, 9:56 AM",
+        send: false,
+        amount: "12.34")
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,7 +213,24 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ],
                   ),
-                )
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 5,
+                      itemBuilder: ((context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Color(0xffF2F4F5),
+                            )
+                          ],
+                        );
+                      }),
+                    ))
               ]),
             ))
           ],
@@ -194,4 +238,15 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+}
+
+class TileDetails {
+  final String id, dateTime, amount;
+  final bool send;
+  TileDetails({
+    required this.amount,
+    required this.id,
+    required this.dateTime,
+    required this.send,
+  });
 }
