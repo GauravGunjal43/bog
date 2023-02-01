@@ -9,6 +9,7 @@ class Checkout extends StatefulWidget {
 
 class _CheckoutState extends State<Checkout> {
   List tile = [1, 2, 3, 4, 5, 6, 7, 8, 9, '.', 0, ''];
+  String amount = '';
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,9 @@ class _CheckoutState extends State<Checkout> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(Icons.arrow_back_ios, color: Color(0xff6658eb)),
         ),
       ),
@@ -137,7 +140,7 @@ class _CheckoutState extends State<Checkout> {
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
@@ -149,7 +152,7 @@ class _CheckoutState extends State<Checkout> {
                             ),
                           ),
                           Text(
-                            ' 1.23',
+                            amount,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 35,
@@ -178,15 +181,28 @@ class _CheckoutState extends State<Checkout> {
                       itemCount: 12,
                       itemBuilder: (context, index) {
                         if (index != 11) {
-                          return Center(
-                              child: Text(
-                            tile[index].toString(),
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 24),
-                          ));
+                          return GestureDetector(
+                            onTap: () {
+                              amount += tile[index].toString();
+                              setState(() {});
+                            },
+                            behavior: HitTestBehavior.translucent,
+                            child: Center(
+                                child: Text(
+                              tile[index].toString(),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 24),
+                            )),
+                          );
                         } else {
-                          return const Icon(
-                            Icons.backspace_outlined,
+                          return IconButton(
+                            onPressed: () {
+                              if (amount.length > 0) {
+                                amount = amount.substring(0, amount.length - 1);
+                                setState(() {});
+                              }
+                            },
+                            icon: Icon(Icons.backspace_outlined),
                             color: Colors.white,
                           );
                         }
