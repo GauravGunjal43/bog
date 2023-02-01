@@ -8,6 +8,8 @@ class Checkout extends StatefulWidget {
 }
 
 class _CheckoutState extends State<Checkout> {
+  List tile = [1, 2, 3, 4, 5, 6, 7, 8, 9, '.', 0, ''];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +33,7 @@ class _CheckoutState extends State<Checkout> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
               child: Container(
-                height: 184,
-                width: 327,
+                height: 200,
                 decoration: BoxDecoration(
                   color: const Color(0xff0D0E0f),
                   borderRadius: BorderRadius.circular(30),
@@ -121,42 +122,103 @@ class _CheckoutState extends State<Checkout> {
               ),
             ),
             Expanded(
-                child: Container(
-              width: double.maxFinite,
-              decoration: const BoxDecoration(
-                color: Color(0xff6658eb),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-                    child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22.0),
-                          ))),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            'Checkout',
+              child: Container(
+                width: double.maxFinite,
+                decoration: const BoxDecoration(
+                  color: Color(0xff6658eb),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              '\$',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                          ),
+                          Text(
+                            ' 1.23',
                             style: TextStyle(
-                                color: Color(0xff6658eb), fontSize: 16),
+                                color: Colors.white,
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: Divider(
+                        thickness: 1,
+                        color: Colors.white,
+                      ),
+                    ),
+                    GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 2,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                      ),
+                      itemCount: 12,
+                      itemBuilder: (context, index) {
+                        if (index != 11) {
+                          return Center(
+                              child: Text(
+                            tile[index].toString(),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 24),
+                          ));
+                        } else {
+                          return const Icon(
+                            Icons.backspace_outlined,
+                            color: Colors.white,
+                          );
+                        }
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+                      child: TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(22.0),
+                            ))),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              'Checkout',
+                              style: TextStyle(
+                                  color: Color(0xff6658eb), fontSize: 16),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            )),
+            ),
           ],
         ),
       ),
