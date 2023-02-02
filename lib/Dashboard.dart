@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:test/checkout.dart';
 
 class Dashboard extends StatefulWidget {
@@ -37,6 +40,15 @@ class _DashboardState extends State<Dashboard> {
         send: false,
         amount: "12.34")
   ];
+  final GlobalKey _refreshIndicatorKey = GlobalKey();
+  Future _handleRefresh() {
+    final Completer completer = Completer();
+    Timer(const Duration(seconds: 1), () {
+      completer.complete();
+    });
+    return completer.future.then((_) {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
             CarouselSlider.builder(
               itemCount: 3,
               options: CarouselOptions(
-                  height: 200,
+                  height: 220,
                   initialPage: 0,
                   enableInfiniteScroll: false,
                   scrollDirection: Axis.horizontal,
@@ -72,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
               itemBuilder:
                   (BuildContext context, int itemIndex, int pageViewIndex) =>
                       Container(
-                height: 200,
+                height: 220,
                 decoration: BoxDecoration(
                     color: Color(0xff0D0E0F),
                     borderRadius: BorderRadius.circular(30)),
@@ -98,7 +110,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.only(bottom: 40),
                         child: Row(
                           children: [
                             Image.asset('assets/images/cart.png'),
@@ -214,13 +226,17 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      itemBuilder: ((context, index) {
-                        return Row(
+                LiquidPullToRefresh(
+                  color: Color(0xff6658EB),
+                  key: _refreshIndicatorKey,
+                  onRefresh: _handleRefresh,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 5,
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             CircleAvatar(
@@ -233,11 +249,37 @@ class _DashboardState extends State<Dashboard> {
                                     child: Image.asset(
                                         'assets/images/Rec_Icon.png')),
                               ),
+                            ),
+                            Column(
+                              children: [
+                                Text(transactions[index].dateTime),
+                                Text(
+                                  transactions[index].id,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                )
+                              ],
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                width: 120,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text('\$' + transactions[index].amount,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20)),
+                                ),
+                              ),
                             )
                           ],
-                        );
-                      }),
-                    ))
+                        ),
+                      );
+                    }),
+                  ),
+                )
               ]),
             ))
           ],

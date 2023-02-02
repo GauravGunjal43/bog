@@ -34,10 +34,13 @@ class _CheckoutState extends State<Checkout> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(30, 10, 30, 30),
+              padding: EdgeInsets.symmetric(horizontal: 30),
               child: Container(
-                height: 200,
+                height: 220,
                 decoration: BoxDecoration(
                   color: const Color(0xff0D0E0f),
                   borderRadius: BorderRadius.circular(30),
@@ -64,7 +67,7 @@ class _CheckoutState extends State<Checkout> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.only(bottom: 40),
                         child: Row(
                           children: [
                             Image.asset('assets/images/cart.png'),
@@ -86,33 +89,12 @@ class _CheckoutState extends State<Checkout> {
                           ],
                         ),
                       ),
-                      const Text(
-                        'Balance',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w300),
+                      SizedBox(
+                        height: 30,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: const [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              '\$',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ),
-                          Text(
-                            ' 12.34',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
                           Spacer(),
                           Text(
                             'USD',
@@ -125,6 +107,9 @@ class _CheckoutState extends State<Checkout> {
                 ),
               ),
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.07,
+            ),
             Expanded(
               child: Container(
                 width: double.maxFinite,
@@ -135,7 +120,7 @@ class _CheckoutState extends State<Checkout> {
                   ),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
@@ -145,11 +130,11 @@ class _CheckoutState extends State<Checkout> {
                           const Padding(
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
-                              '\$',
+                              '\$ ',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
-                                  fontWeight: FontWeight.w300),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                           Text(
@@ -163,72 +148,87 @@ class _CheckoutState extends State<Checkout> {
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 30),
+                      padding: EdgeInsets.only(bottom: 20),
                       child: Divider(
                         thickness: 1,
                         color: Colors.white,
                       ),
                     ),
-                    GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 2,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                      ),
-                      itemCount: 12,
-                      itemBuilder: (context, index) {
-                        if (index != 11) {
-                          return GestureDetector(
-                            onTap: () {
-                              amount += tile[index].toString();
-                              setState(() {});
-                            },
-                            behavior: HitTestBehavior.translucent,
-                            child: Center(
-                                child: Text(
-                              tile[index].toString(),
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 24),
-                            )),
-                          );
-                        } else {
-                          return IconButton(
-                            onPressed: () {
-                              if (amount.length > 0) {
-                                amount = amount.substring(0, amount.length - 1);
-                                setState(() {});
-                              }
-                            },
-                            icon: Icon(Icons.backspace_outlined),
-                            color: Colors.white,
-                          );
-                        }
-                      },
-                    ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentRequest(amount: amount)));
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 2,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                        ),
+                        itemCount: 12,
+                        itemBuilder: (context, index) {
+                          if (index != 11) {
+                            return GestureDetector(
+                              onTap: () {
+                                amount += tile[index].toString();
+                                setState(() {});
+                              },
+                              behavior: HitTestBehavior.translucent,
+                              child: Center(
+                                  child: Text(
+                                tile[index].toString(),
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 24),
+                              )),
+                            );
+                          } else {
+                            return IconButton(
+                              onPressed: () {
+                                if (amount.length > 0) {
+                                  amount =
+                                      amount.substring(0, amount.length - 1);
+                                  setState(() {});
+                                }
+                              },
+                              icon: Icon(Icons.backspace_outlined),
+                              color: Colors.white,
+                            );
+                          }
                         },
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.white),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22.0),
-                            ))),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(
-                              'Checkout',
-                              style: TextStyle(
-                                  color: Color(0xff6658eb), fontSize: 16),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentRequest(amount: amount)));
+                          },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(22.0),
+                              ))),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(
+                                'Checkout',
+                                style: TextStyle(
+                                    color: Color(0xff6658eb), fontSize: 16),
+                              ),
                             ),
                           ),
                         ),
